@@ -1,8 +1,11 @@
 package com.jalian.planter.controller;
 
+import com.jalian.planter.exception.BadRequestException;
 import com.jalian.planter.model.User;
 import com.jalian.planter.request.LoginRequest;
 import com.jalian.planter.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,50 +21,50 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return this.userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) {
-        User user = this.userService.getUserById(id);
-
-        if (user == null) {
-            //Excepcion
-            return null;
-        } else {
-            return user;
-        }
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getUserById(id));
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
 
-        if (!valideUser(user)) {
-            return null;
+        if (!validateUser(user)) {
+            throw new BadRequestException("Párametros ingresados incorrectamente");
         }
 
-        return this.userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(user));
     }
 
     @PostMapping("/login")
-    public User loginUser (@RequestBody LoginRequest body) {
+    public ResponseEntity<User> loginUser (@RequestBody LoginRequest body) {
 
-        return this.userService.loginUser(body.getEmail(), body.getPassword());
+        if(body.getPassword() == null || body.getPassword() == "" || body.getEmail() == "" || body.getEmail() == null) {
+            throw new BadRequestException("No se han ingresado los párametros");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.loginUser(body.getEmail(), body.getPassword()));
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody User user) {
-        return this.userService.updateUser(id, user);
+    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
+
+        if(!validateUser(user)) {
+            throw new BadRequestException("El parámetro de usuario esta incorrecto");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.updateUser(id, user));
     }
 
-    private boolean valideUser(User user) {
+    private boolean validateUser(User user) {
 
         if (user.getName() == "" || user.getName() == null || user.getEmail() == "" || user.getEmail() == null
         || user.getPassword() == "" || user.getPassword() == null) {
             return false;
         }
-
         return true;
     }
 }
