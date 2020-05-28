@@ -4,22 +4,27 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
 
 @Entity
 @Table(name = "tip")
 public class Tip {
 
     @Id
+    @GeneratedValue
     private int id;
-    @Column(nullable = false)
+
+    @Column(nullable = false, name = "message")
     private String message;
+
+    protected Tip () {}
+
+    public Tip(String message) {
+        this.message = message;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getMessage() {

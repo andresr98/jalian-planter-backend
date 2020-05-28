@@ -1,26 +1,38 @@
 package com.jalian.planter.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pot")
 public class Pot {
 
     @Id
+    @GeneratedValue
     private int id;
-    @Column
+
+    @Column(name = "name" )
     private String name;
-    @Column
+
+    @Column(name = "type")
     private String type;
-    //@ForeignKey(ConstraintMode.CONSTRAINT)
-    private int user_id;
+
+    @ManyToOne
+    private User user;
+
+    @OneToMany(mappedBy = "pot")
+    private List<PotDevice> deviceList = new ArrayList<PotDevice>();
+
+    protected Pot() {}
+
+    public Pot(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -37,5 +49,17 @@ public class Pot {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<PotDevice> getDeviceList () {
+        return this.deviceList;
     }
 }

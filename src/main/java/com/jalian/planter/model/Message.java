@@ -1,27 +1,35 @@
 package com.jalian.planter.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "message")
 public class Message {
 
     @Id
+    @GeneratedValue
     private int id;
-    @Column(nullable = false)
+
+    @Column(nullable = false, name = "value")
     private String value;
-    @Column(nullable = false)
-    //date
-    private int created_date;
-    //@ForeignKey
-    private int pot_device_id;
+
+    @CreationTimestamp
+    private LocalDateTime createdDate;
+
+    @ManyToOne
+    private PotDevice potDevice;
+
+    protected Message () {}
+
+    public Message(String value) {
+        this.value = value;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getValue() {
@@ -32,4 +40,15 @@ public class Message {
         this.value = value;
     }
 
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public PotDevice getPotDevice() {
+        return potDevice;
+    }
+
+    public void setPotDevice(PotDevice potDevice) {
+        this.potDevice = potDevice;
+    }
 }
