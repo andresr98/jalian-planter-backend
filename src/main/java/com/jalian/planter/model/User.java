@@ -1,33 +1,45 @@
 package com.jalian.planter.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
 public class User {
 
     @Id
+    @GeneratedValue
     private int id;
-    @Column(nullable = false)
+
+    @Column(nullable = false, name = "name")
     private String name;
-    @Column(nullable = false)
+
+    @Column(nullable = false, name = "password")
     private String password;
-    @Column(nullable = false)
+
+    @Column(nullable = false, name = "email")
     private String email;
-    @Column(nullable = false)
+
+    @Column(nullable = false, name = "role")
     private int role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Pot> pots = new ArrayList<Pot>();
+
+    protected User () {}
+
+    public User(String name, String password, String email, int role) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
 
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    
     public String getName() {
         return name;
     }
@@ -58,5 +70,17 @@ public class User {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public List<Pot> getPots () {
+        return this.pots;
+    }
+
+    public void addPot(Pot pot) {
+        this.pots.add(pot);
+    }
+
+    public void removePot(Pot pot) {
+        this.pots.remove(pot);
     }
 }

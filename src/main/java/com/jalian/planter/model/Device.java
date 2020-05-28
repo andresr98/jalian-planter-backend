@@ -1,25 +1,26 @@
 package com.jalian.planter.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "device")
 public class Device {
 
     @Id
+    @GeneratedValue
     private int id;
-    @Column(nullable = false)
+
+    @Column(nullable = false, name="name")
     private String name;
+
+    protected Device () {}
+
+    public Device (String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
