@@ -9,7 +9,7 @@ import java.util.List;
 public class Pot {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name" )

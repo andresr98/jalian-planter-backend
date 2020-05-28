@@ -12,7 +12,7 @@ import java.util.List;
 public class PotDevice {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false, name = "status")
