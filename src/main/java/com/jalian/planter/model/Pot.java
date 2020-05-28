@@ -18,7 +18,7 @@ public class Pot {
     @Column(name = "type")
     private String type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     @OneToMany(mappedBy = "pot")

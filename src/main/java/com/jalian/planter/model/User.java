@@ -24,7 +24,7 @@ public class User {
     @Column(nullable = false, name = "role")
     private int role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Pot> pots = new ArrayList<Pot>();
 
     protected User () {}
