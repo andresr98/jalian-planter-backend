@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Message {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false, name = "value")

@@ -9,7 +9,7 @@ import java.util.List;
 public class Pot {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name" )
@@ -18,7 +18,7 @@ public class Pot {
     @Column(name = "type")
     private String type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     @OneToMany(mappedBy = "pot")
