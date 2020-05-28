@@ -31,13 +31,48 @@ public class UserService {
     }
 
     public User createUser (User user) {
-        User userOptional = this.userRepository.findByEmail(user.getEmail());
+        Optional<User> userOptional = this.userRepository.findByEmail(user.getEmail());
 
-        if (userOptional != null) {
+        if (userOptional.isPresent()) {
             //Excepcion
             return null;
         }
-        
-        return this.userRepository.save(user);
+        try {
+            user.setRole(2);
+            return this.userRepository.save(user);
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public User loginUser (String email, String password) {
+        try {
+            Optional<User> userOptional = this.userRepository.findByEmailAndPassword(email, password);
+
+            if (userOptional.isPresent()) {
+                return userOptional.get();
+            }
+            else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public User updateUser (int id, User user) {
+        try {
+            Optional<User> userOptional = this.userRepository.findById(id);
+
+            if(userOptional.isPresent()) {
+                user.setId(id);
+                return this.userRepository.save(user);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

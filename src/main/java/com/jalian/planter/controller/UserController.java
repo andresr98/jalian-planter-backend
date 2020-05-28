@@ -1,6 +1,7 @@
 package com.jalian.planter.controller;
 
 import com.jalian.planter.model.User;
+import com.jalian.planter.request.LoginRequest;
 import com.jalian.planter.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,32 @@ public class UserController {
 
     @PostMapping
     public User createUser(@RequestBody User user) {
+
+        if (!valideUser(user)) {
+            return null;
+        }
+
         return this.userService.createUser(user);
+    }
+
+    @PostMapping("/login")
+    public User loginUser (@RequestBody LoginRequest body) {
+
+        return this.userService.loginUser(body.getEmail(), body.getPassword());
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable int id, @RequestBody User user) {
+        return this.userService.updateUser(id, user);
+    }
+
+    private boolean valideUser(User user) {
+
+        if (user.getName() == "" || user.getName() == null || user.getEmail() == "" || user.getEmail() == null
+        || user.getPassword() == "" || user.getPassword() == null) {
+            return false;
+        }
+
+        return true;
     }
 }
