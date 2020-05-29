@@ -79,4 +79,8 @@ public class PotDevice {
     public void removeMessage (Message message) {
         this.messages.remove(message);
     }
+
+    public void setUpdatedAt(LocalDateTime dateTime) {
+        this.updatedAt = dateTime;
+    }
 }

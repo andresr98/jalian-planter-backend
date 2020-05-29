@@ -4,7 +4,10 @@ import com.jalian.planter.exception.DataDuplicationException;
 import com.jalian.planter.exception.DataNotFoundException;
 import com.jalian.planter.exception.InternalServerException;
 import com.jalian.planter.model.Pot;
+import com.jalian.planter.repository.DeviceRepository;
+import com.jalian.planter.repository.PotDeviceRepository;
 import com.jalian.planter.repository.PotRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,9 @@ import java.util.Optional;
 public class PotService {
 
     private PotRepository potRepository;
+
+    @Autowired
+    private PotDeviceService potDeviceService;
 
     public PotService (PotRepository potRepository) {
         this.potRepository = potRepository;
@@ -65,9 +71,13 @@ public class PotService {
     public Pot createPot (Pot pot) {
         try {
 
-            return this.potRepository.save(pot);
+            Pot createdPot = this.potRepository.save(pot);
 
-            //Crear los demás items
+            //Crear los registros de device x matera
+
+            this.potDeviceService.insertPotDevices(createdPot);
+            return createdPot;
+
         } catch (InternalServerException e) {
             throw new InternalServerException("No se puede crear la matera");
         }
