@@ -50,4 +50,16 @@ public class PotDeviceService {
             this.potDeviceRepository.save(potDevice);
         }
     }
+
+    //Actualiar updatedAt cuando se reciba un mensaje via MQTT
+    public void updateDate(int potId, int deviceId) {
+        Optional <PotDevice> potDeviceOptional = this.potDeviceRepository.findByPot_IdAndDevice_Id(potId, deviceId);
+
+        if (potDeviceOptional.isPresent()) {
+            PotDevice potDevice = potDeviceOptional.get();
+            potDevice.setUpdatedAt(LocalDateTime.now());
+
+            this.potDeviceRepository.save(potDevice);
+        }
+    }
 }

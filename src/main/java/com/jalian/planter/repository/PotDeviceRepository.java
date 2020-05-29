@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface PotDeviceRepository extends JpaRepository<PotDevice, Integer> {
 
     Optional<PotDevice> findByPotAndDevice (Pot pot, Device device);
+
+    Optional<PotDevice> findByPot_IdAndDevice_Id (int potId, int deviceId);
 }
