@@ -1,5 +1,7 @@
 package com.jalian.planter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +20,11 @@ public class Pot {
     @Column(name = "type")
     private String type;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private User user;
 
     @OneToMany(mappedBy = "pot")
+    @JsonIgnore
     private List<PotDevice> deviceList = new ArrayList<PotDevice>();
 
     protected Pot() {}
@@ -33,6 +36,10 @@ public class Pot {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
