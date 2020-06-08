@@ -1,7 +1,10 @@
 package com.jalian.planter.controller;
 
+import com.jalian.planter.model.Message;
 import com.jalian.planter.model.Pot;
+import com.jalian.planter.repository.MessageRepository;
 import com.jalian.planter.service.PotService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,8 @@ import java.util.List;
 public class PotContoller {
 
     private PotService potService;
+
+
 
     public PotContoller (PotService potService) {
         this.potService = potService;
@@ -41,5 +46,10 @@ public class PotContoller {
     @PutMapping("/{id}")
     public ResponseEntity<Pot> updatePotById (@PathVariable int id, @RequestBody Pot pot) {
         return ResponseEntity.status(HttpStatus.OK).body(this.potService.updatePotById(id, pot));
+    }
+
+    @GetMapping("/{id}/messages")
+    public ResponseEntity<List<Message>> getAllMessages(@PathVariable int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(potService.getMessages(id));
     }
 }

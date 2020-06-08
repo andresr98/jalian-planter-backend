@@ -2,7 +2,9 @@ package com.jalian.planter.service;
 
 import com.jalian.planter.exception.DataNotFoundException;
 import com.jalian.planter.exception.InternalServerException;
+import com.jalian.planter.model.Message;
 import com.jalian.planter.model.Pot;
+import com.jalian.planter.repository.MessageRepository;
 import com.jalian.planter.repository.PotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ public class PotService {
 
     @Autowired
     private PotDeviceService potDeviceService;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     public PotService (PotRepository potRepository) {
         this.potRepository = potRepository;
@@ -94,5 +99,15 @@ public class PotService {
         } catch (InternalServerException e) {
             throw new InternalServerException("No se puede actualizar la matera");
         }
+    }
+
+    public List<Message> getMessages(int id) {
+        List<Message> messages = messageRepository
+                .findByPotDevice_Pot_IdOrderByPotDevice_Device_Id(id);
+
+        if (messages.size() == 0) {
+            throw new DataNotFoundException("No se encuentran mensajes para la matera");
+        }
+        return messages;
     }
 }

@@ -78,6 +78,7 @@ public class PotDeviceService {
             Message message = new Message(value);
             message.setPotDevice(potDevice);
             messageRepository.save(message);
+            updateDate(potId, deviceId);
         }
 
     }

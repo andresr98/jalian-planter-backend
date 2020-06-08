@@ -1,5 +1,6 @@
 package com.jalian.planter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Message {
     private LocalDateTime createdDate;
 
     @ManyToOne
+    //@JsonIgnore
     private PotDevice potDevice;
 
     protected Message () {}
