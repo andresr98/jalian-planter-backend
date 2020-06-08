@@ -1,19 +1,18 @@
 package com.jalian.planter.service;
 
-import com.jalian.planter.exception.DataDuplicationException;
 import com.jalian.planter.exception.DataNotFoundException;
 import com.jalian.planter.exception.InternalServerException;
 import com.jalian.planter.model.Pot;
-import com.jalian.planter.repository.DeviceRepository;
-import com.jalian.planter.repository.PotDeviceRepository;
 import com.jalian.planter.repository.PotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PotService {
 
     private PotRepository potRepository;

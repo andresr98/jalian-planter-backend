@@ -1,5 +1,6 @@
 package com.jalian.planter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class PotDevice {
     private Device device;
 
     @OneToMany(mappedBy = "potDevice")
+    @JsonIgnore
     private List<Message> messages = new ArrayList<Message>();
 
     protected PotDevice () {}
