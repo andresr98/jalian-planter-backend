@@ -16,12 +16,12 @@ public class MessageReceiver {
     @RabbitHandler
     public void processIncomingMessage(byte[] data) {
         String message = new String(data);
-        logger.info(String.format("Se ha recibido: %s ", message));
 
-        //message structure -- device_name:value
-        int index = message.indexOf(":");
-        String device = message.substring(0,index);
-        String value = message.substring(index+1);
-        //insert into database
+        //message structure -- potId:deviceId:value
+        final String REGEX = ":";
+        String[] messages = message.split(REGEX);
+        logger.info(String.format("Se ha recibido como pot id: %s ", messages[0]));
+        logger.info(String.format("Se ha recibido como device id: %s ", messages[1]));
+        logger.info(String.format("Se ha recibido como value: %s ", messages[2]));
     }
 }
