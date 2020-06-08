@@ -6,10 +6,12 @@ import com.jalian.planter.model.Device;
 import com.jalian.planter.repository.DeviceRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DeviceService {
 
     private DeviceRepository deviceRepository;

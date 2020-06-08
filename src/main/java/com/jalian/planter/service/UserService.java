@@ -8,10 +8,12 @@ import com.jalian.planter.model.User;
 import com.jalian.planter.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
 
     private UserRepository userRepository;

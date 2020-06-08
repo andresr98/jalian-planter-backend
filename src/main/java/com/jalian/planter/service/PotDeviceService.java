@@ -1,23 +1,30 @@
 package com.jalian.planter.service;
 
 import com.jalian.planter.model.Device;
+import com.jalian.planter.model.Message;
 import com.jalian.planter.model.Pot;
 import com.jalian.planter.model.PotDevice;
+import com.jalian.planter.repository.MessageRepository;
 import com.jalian.planter.repository.PotDeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PotDeviceService {
 
     private PotDeviceRepository potDeviceRepository;
 
     @Autowired
     private DeviceService deviceService;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     public PotDeviceService (PotDeviceRepository potDeviceRepository) {
         this.potDeviceRepository = potDeviceRepository;
@@ -61,5 +68,17 @@ public class PotDeviceService {
 
             this.potDeviceRepository.save(potDevice);
         }
+    }
+
+    public void registerMessage(int potId, int deviceId, int value) {
+        Optional <PotDevice> potDeviceOptional = potDeviceRepository.findByPot_IdAndDevice_Id(potId, deviceId);
+
+        if (potDeviceOptional.isPresent()) {
+            PotDevice potDevice = potDeviceOptional.get();
+            Message message = new Message(value);
+            message.setPotDevice(potDevice);
+            messageRepository.save(message);
+        }
+
     }
 }

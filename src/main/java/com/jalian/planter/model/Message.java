@@ -14,7 +14,7 @@ public class Message {
     private int id;
 
     @Column(nullable = false, name = "value")
-    private String value;
+    private int value;
 
     @CreationTimestamp
     private LocalDateTime createdDate;
@@ -24,7 +24,7 @@ public class Message {
 
     protected Message () {}
 
-    public Message(String value) {
+    public Message(int value) {
         this.value = value;
     }
 
@@ -32,11 +32,11 @@ public class Message {
         return id;
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
 
