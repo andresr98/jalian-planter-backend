@@ -1,9 +1,11 @@
 package com.jalian.planter.service;
 
+import com.jalian.planter.comm.MessageSender;
 import com.jalian.planter.exception.DataNotFoundException;
 import com.jalian.planter.exception.InternalServerException;
 import com.jalian.planter.model.Device;
 import com.jalian.planter.repository.DeviceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,6 +17,12 @@ import java.util.Optional;
 public class DeviceService {
 
     private DeviceRepository deviceRepository;
+
+    @Autowired
+    private MessageSender messageSender;
+
+    @Autowired
+    private PotDeviceService potDeviceService;
 
     public DeviceService(DeviceRepository deviceRepository) {
         this.deviceRepository = deviceRepository;
@@ -74,4 +82,12 @@ public class DeviceService {
             throw new InternalServerException("No se puede actualizar el dispositivo");
         }
     }
+
+    public void sendMessageToRabbit(String deviceId, String potId, String value) {
+        potDeviceService.registerMessage(Integer.parseInt(potId), Integer.parseInt(deviceId),
+                Integer.parseInt(value));
+
+        messageSender.send("pot_" + potId +  "_" + deviceId, value.getBytes());
+    }
+
 }

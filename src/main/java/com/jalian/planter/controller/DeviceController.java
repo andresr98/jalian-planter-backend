@@ -2,7 +2,9 @@ package com.jalian.planter.controller;
 
 import com.jalian.planter.exception.BadRequestException;
 import com.jalian.planter.model.Device;
+import com.jalian.planter.request.SendRequest;
 import com.jalian.planter.service.DeviceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +47,12 @@ public class DeviceController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(this.deviceService.updteDeviceById(id, device));
     }
+
+    @PostMapping("/{id}/send")
+    public ResponseEntity sendMessageToRabbit (@PathVariable String id, @RequestBody SendRequest sendRequest) {
+        deviceService.sendMessageToRabbit(id, sendRequest.getPotId(), sendRequest.getValue());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
 
 }

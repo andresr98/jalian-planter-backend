@@ -1,5 +1,6 @@
 package com.jalian.planter.service;
 
+import com.jalian.planter.comm.MessageSender;
 import com.jalian.planter.model.Device;
 import com.jalian.planter.model.Message;
 import com.jalian.planter.model.Pot;
@@ -25,6 +26,9 @@ public class PotDeviceService {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private MessageSender messageSender;
 
     public PotDeviceService (PotDeviceRepository potDeviceRepository) {
         this.potDeviceRepository = potDeviceRepository;
@@ -79,7 +83,14 @@ public class PotDeviceService {
             message.setPotDevice(potDevice);
             messageRepository.save(message);
             updateDate(potId, deviceId);
+            sendMessage(potId, deviceId, value);
         }
 
+    }
+
+    private void sendMessage(int potId, int deviceId, int value) {
+        String routingKey = "pot_" + Integer.toString(potId);
+        String messageToSend = Integer.toString(deviceId) + ":" + Integer.toString(value);
+        messageSender.send(routingKey, messageToSend.getBytes());
     }
 }
