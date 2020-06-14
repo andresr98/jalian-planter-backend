@@ -103,7 +103,7 @@ public class PotService {
 
     public List<Message> getMessages(int id) {
         List<Message> messages = messageRepository
-                .findByPotDevice_Pot_IdOrderByPotDevice_Device_Id(id);
+                .findByPotDevice_Pot_IdOrderByPotDevice_Device_IdAscCreatedDateAsc(id);
 
         if (messages.size() == 0) {
             throw new DataNotFoundException("No se encuentran mensajes para la matera");
