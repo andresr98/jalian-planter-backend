@@ -18,6 +18,7 @@ public class User {
     private String name;
 
     @Column(nullable = false, name = "password")
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false, name = "email")
