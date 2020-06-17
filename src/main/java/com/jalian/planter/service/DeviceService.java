@@ -88,6 +88,20 @@ public class DeviceService {
                 Integer.parseInt(value));
 
         messageSender.send("pot_" + potId +  "_" + deviceId, value.getBytes());
+        wait(5);
+        String val = "0";
+        potDeviceService.registerMessage(Integer.parseInt(potId), Integer.parseInt(deviceId),
+                Integer.parseInt(val));
+        messageSender.send("pot_" + potId +  "_" + deviceId, val.getBytes());
+
+    }
+
+    public static void wait(int seconds){
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
 }
